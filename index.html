@@ -35,7 +35,10 @@
       color: #d84315;
     }
 
-    #webcam-container, #label-container {
+    #webcam-container, 
+    #label-container,
+    #uploaded-image-container,
+    #upload-label-container {
       margin-top: 20px;
       text-align: center;
     }
@@ -48,30 +51,16 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 1rem;
+      margin: 5px;
     }
 
     button:hover {
       background: #bf3a10;
     }
 
-    .alert {
-      margin-top: 20px;
-      padding: 15px;
-      font-size: 1.2rem;
-      border-radius: 6px;
-      display: none;
-    }
-
-    .alert-danger {
-      background: #ffcccc;
-      border: 2px solid #cc0000;
-      color: #a30000;
-    }
-
-    .alert-warning {
-      background: #fff4cc;
-      border: 2px solid #e6b800;
-      color: #8a6d00;
+    img {
+      max-width: 300px;
+      border-radius: 8px;
     }
   </style>
 
@@ -116,69 +105,118 @@
 <section>
   <h2>📸 Try It Yourself</h2>
   <p>
-    1. Press <strong>Start</strong> to load the model.  
+    1. Press <strong>Start</strong> to load the model and activate your webcam.  
     <br>
-    2. Grant webcam access.  
-    <br>
-    3. Show pictures/videos of smoke or flames—or real sources (safely!)—to test the model.
+    2. Or upload an image to test the model manually.
   </p>
 
-  <!-- Your Teachable Machine Code Block -->
+  <!-- WEB CAM MODE -->
   <div>Teachable Machine Image Model</div>
-  <button type="button" onclick="init()">Start</button>
+  <button type="button" onclick="init()">Start Webcam</button>
   <div id="webcam-container"></div>
   <div id="label-container"></div>
+
+  <hr style="margin: 40px 0;">
+
+  <!-- IMAGE UPLOAD MODE -->
+  <h3>Or Upload an Image</h3>
+  <button onclick="document.getElementById('imageUpload').click()">Upload Image</button>
+  <input 
+      type="file" 
+      id="imageUpload" 
+      accept="image/*" 
+      style="display:none" 
+      onchange="handleImageUpload(event)"
+  >
+
+  <div id="uploaded-image-container">
+      <img id="uploaded-image" src="" style="display:none;">
+  </div>
+  <div id="upload-label-container"></div>
 
 </section>
 
 <script type="text/javascript">
 // ==========================================================
-//   YOUR TEACHABLE MACHINE MODEL CODE (inserted as-is)
+//   TEACHABLE MACHINE MODEL SETUP
 // ==========================================================
 
-    // the link to your model provided by Teachable Machine export panel
-    // If local, keep "./my_model/"
-    const URL = "./my_model/";
+const URL = "./my_model/";
 
-    let model, webcam, labelContainer, maxPredictions;
+let model, webcam, labelContainer, maxPredictions;
 
-    // Load the image model and set up the webcam
-    async function init() {
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
+// Load the model and set up the webcam
+async function init() {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
 
-        model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
 
-        const flip = true; 
-        webcam = new tmImage.Webcam(200, 200, flip); 
-        await webcam.setup();
-        await webcam.play();
-        window.requestAnimationFrame(loop);
+    const flip = true; 
+    webcam = new tmImage.Webcam(200, 200, flip); 
+    await webcam.setup();
+    await webcam.play();
+    window.requestAnimationFrame(loop);
 
-        document.getElementById("webcam-container").appendChild(webcam.canvas);
-        labelContainer = document.getElementById("label-container");
-        labelContainer.innerHTML = "";
-        for (let i = 0; i < maxPredictions; i++) {
-            labelContainer.appendChild(document.createElement("div"));
-        }
+    document.getElementById("webcam-container").appendChild(webcam.canvas);
+    labelContainer = document.getElementById("label-container");
+    labelContainer.innerHTML = "";
+    for (let i = 0; i < maxPredictions; i++) {
+        labelContainer.appendChild(document.createElement("div"));
     }
+}
 
-    async function loop() {
-        webcam.update();
-        await predict();
-        window.requestAnimationFrame(loop);
-    }
+// Loop for webcam prediction
+async function loop() {
+    webcam.update();
+    await predict();
+    window.requestAnimationFrame(loop);
+}
 
-    async function predict() {
-        const prediction = await model.predict(webcam.canvas);
-        for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            labelContainer.childNodes[i].innerHTML = classPrediction;
-        }
+// Predict from webcam
+async function predict() {
+    if (!model) return;
+    const prediction = await model.predict(webcam.canvas);
+    for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction =
+            prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        labelContainer.childNodes[i].innerHTML = classPrediction;
     }
+}
+
 // ==========================================================
+//   IMAGE UPLOAD FEATURE
+// ==========================================================
+
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const img = document.getElementById("uploaded-image");
+    img.src = URL.createObjectURL(file);
+    img.style.display = "block";
+
+    img.onload = () => predictImage(img);
+}
+
+async function predictImage(imageElement) {
+    if (!model) {
+        alert("Please click 'Start Webcam' at least once to load the model.");
+        return;
+    }
+
+    const prediction = await model.predict(imageElement);
+
+    const uploadLabelContainer = document.getElementById("upload-label-container");
+    uploadLabelContainer.innerHTML = "";
+
+    for (let i = 0; i < prediction.length; i++) {
+        const label = document.createElement("div");
+        label.innerHTML = `${prediction[i].className}: ${prediction[i].probability.toFixed(2)}`;
+        uploadLabelContainer.appendChild(label);
+    }
+}
 </script>
 
 </body>
