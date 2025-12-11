@@ -3,47 +3,47 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Early Fire & Smoke Detection – Teachable Machine</title>
+    <title>Early Fire & Smoke Detection AI</title>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: "Poppins", sans-serif;
+            font-family: "Montserrat", sans-serif;
             margin: 0;
-            background: linear-gradient(135deg, #f7f7f8 0%, #ececec 100%);
+            background: #f5f5f7;
             color: #222;
         }
 
         header {
-            background: linear-gradient(135deg, #d32f2f, #b71c1c);
-            color: white;
-            padding: 40px;
+            background: linear-gradient(135deg, #d32f2f, #9a0007);
+            padding: 50px 20px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
         }
 
         header h1 {
-            font-size: 2.5rem;
             margin: 0;
+            font-size: 2.6rem;
         }
 
         main {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: auto;
-            padding: 20px;
+            padding: 30px;
         }
 
-        .card {
+        .section {
             background: white;
-            padding: 30px;
-            margin-top: 25px;
+            padding: 25px 35px;
             border-radius: 12px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-            transition: 0.3s ease;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.25s;
         }
-        .card:hover {
+        .section:hover {
             transform: translateY(-3px);
         }
 
@@ -53,15 +53,15 @@
         }
 
         button {
+            padding: 12px 20px;
             background: #d32f2f;
             color: white;
             border: none;
-            padding: 12px 22px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
+            margin-right: 12px;
             transition: 0.25s;
-            margin-right: 10px;
         }
         button:hover {
             background: #b71c1c;
@@ -79,101 +79,103 @@
             font-size: 1.1rem;
         }
 
-        .upload-area {
-            margin-top: 25px;
-            padding: 25px;
-            border: 2px dashed #ccc;
+        /* Upload box */
+        .upload-box {
+            border: 2px dashed #bdbdbd;
             border-radius: 12px;
-            background: #fafafa;
+            padding: 25px;
             text-align: center;
-            transition: 0.2s;
+            margin-top: 25px;
+            transition: 0.3s;
+            background: #fafafa;
         }
-        .upload-area:hover {
+        .upload-box:hover {
+            background: #ffecec;
             border-color: #d32f2f;
-            background: #fff3f3;
         }
 
-        img#uploaded-image {
+        img#preview {
             max-width: 350px;
             margin-top: 20px;
-            border-radius: 10px;
             display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        #loadingMessage {
+        #loading {
             display: none;
-            color: #b71c1c;
+            margin-top: 15px;
             font-weight: bold;
-            margin-top: 10px;
+            color: #b71c1c;
         }
     </style>
 </head>
 
 <body>
+
 <header>
-    <h1>Early Fire & Smoke Detection System</h1>
-    <p>AI-powered fire hazard detection using Google Teachable Machine</p>
+    <h1>Early Fire & Smoke Detection AI</h1>
+    <p>Real-time detection using Google Teachable Machine</p>
 </header>
 
 <main>
 
     <!-- ABOUT PROJECT -->
-    <div class="card">
+    <div class="section">
         <h2>About This Project</h2>
         <p><strong>Project Title:</strong> Early Fire/Smoke Detection</p>
         <p>
-            This AI-powered system helps detect early signs of fire in environments where traditional smoke detectors 
-            cannot easily be installed—such as forests, wildlife areas, and other remote locations. The system recognizes:
+            This project connects to the problem of detecting fires early in environments where traditional
+            smoke detectors cannot easily be installed—such as forests, wildlife areas, and remote parks.
+            The goal is to identify <strong>No Fire</strong>, <strong>Smoke</strong>, and <strong>Fire</strong>
+            using AI to alert personnel before a small issue becomes a major wildfire.
         </p>
-        <ul>
-            <li><strong>No Fire</strong></li>
-            <li><strong>Smoke</strong></li>
-            <li><strong>Fire</strong></li>
-        </ul>
         <p>
-            Organizations such as forestry services, national parks, and environmental monitoring agencies can use it 
-            to reduce wildfire risks through early intervention.
+            The intended users include organizations that monitor forests, national parks, and other
+            fire-prone environments. Early intervention can reduce damage, prevent crises, and save
+            wildlife and human communities.
         </p>
     </div>
 
     <!-- HOW IT WORKS -->
-    <div class="card">
-        <h2>How the AI Model Works</h2>
+    <div class="section">
+        <h2>How the AI Works</h2>
         <p>
-            This website uses Google’s <strong>Teachable Machine</strong>, which allows users to create an AI model without coding.
-            After uploading images of Fire, Smoke, and No Fire, the system learns the visual differences using machine learning.
-            The trained model runs directly in your browser using TensorFlow.js—no data is uploaded.
+            The model was created using <strong>Google Teachable Machine</strong>. Images of the three classes
+            (No Fire, Smoke, Fire) were uploaded to train a machine-learning model.
+        </p>
+        <p>
+            Teachable Machine converts the training data into an image recognition model that runs 
+            directly in your browser using <strong>TensorFlow.js</strong>. No webcam or uploaded images
+            leave your device—everything is processed locally and securely.
         </p>
     </div>
 
     <!-- INSTRUCTIONS -->
-    <div class="card">
+    <div class="section">
         <h2>Instructions</h2>
         <ol>
-            <li>Click <strong>Start Webcam</strong> to analyze live video.</li>
-            <li>Or upload an image using the <strong>Upload Image</strong> box.</li>
-            <li>The prediction results appear below the image or webcam.</li>
-            <li>High probabilities of “Smoke” or “Fire” would trigger alerts in a full deployment.</li>
+            <li>Press <strong>Start Webcam</strong> to detect fire or smoke in real time.</li>
+            <li>OR upload an image using the <strong>Upload Image</strong> box below.</li>
+            <li>The system will display predictions for each class.</li>
         </ol>
     </div>
 
-    <!-- MODEL INTERFACE -->
-    <div class="card">
+    <!-- MODEL SECTION -->
+    <div class="section">
         <h2>Fire/Smoke Detection Model</h2>
 
-        <button onclick="init()">Start Webcam</button>
+        <button onclick="startWebcam()">Start Webcam</button>
         <button onclick="stopWebcam()">Stop Webcam</button>
 
         <div id="webcam-container"></div>
         <div id="label-container"></div>
+        <div id="loading">Loading model, please wait…</div>
 
-        <p id="loadingMessage">Loading model, please wait...</p>
-
-        <div class="upload-area">
+        <div class="upload-box">
             <p><strong>Or upload an image:</strong></p>
-            <input type="file" accept="image/*" onchange="handleImageUpload(event)">
-            <img id="uploaded-image" />
+            <input type="file" accept="image/*" onchange="handleFile(event)">
+            <img id="preview" />
         </div>
     </div>
 
@@ -184,26 +186,34 @@
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 
 <script>
-    const URL = "./my_model/";
-    let model, webcam, labelContainer, maxPredictions;
+    const MODEL_URL = "./my_model/"; // Place model folder next to this HTML file
+    let model, webcam, maxPredictions, labelContainer;
     let webcamRunning = false;
 
+    /* Load model on demand */
     async function loadModel() {
-        if (model) return model; // If already loaded, reuse it
+        if (model) return model;
 
-        document.getElementById("loadingMessage").style.display = "block";
+        document.getElementById("loading").style.display = "block";
 
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
+        const modelURL = MODEL_URL + "model.json";
+        const metadataURL = MODEL_URL + "metadata.json";
 
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
 
-        document.getElementById("loadingMessage").style.display = "none";
+        // Prepare prediction labels
+        labelContainer = document.getElementById("label-container");
+        labelContainer.innerHTML = "";
+        for (let i = 0; i < maxPredictions; i++)
+            labelContainer.appendChild(document.createElement("div"));
+
+        document.getElementById("loading").style.display = "none";
         return model;
     }
 
-    async function init() {
+    /* Webcam functions */
+    async function startWebcam() {
         await loadModel();
 
         webcam = new tmImage.Webcam(300, 300, true);
@@ -214,53 +224,45 @@
         document.getElementById("webcam-container").innerHTML = "";
         document.getElementById("webcam-container").appendChild(webcam.canvas);
 
-        labelContainer = document.getElementById("label-container");
-        labelContainer.innerHTML = "";
-        for (let i = 0; i < maxPredictions; i++) {
-            labelContainer.appendChild(document.createElement("div"));
-        }
-
-        window.requestAnimationFrame(loop);
+        requestAnimationFrame(webcamLoop);
     }
 
     function stopWebcam() {
-        if (webcam && webcam.webcam) {
+        if (webcam) {
             webcam.stop();
             webcamRunning = false;
         }
     }
 
-    async function loop() {
+    async function webcamLoop() {
         if (!webcamRunning) return;
         webcam.update();
         await predict(webcam.canvas);
-        window.requestAnimationFrame(loop);
+        requestAnimationFrame(webcamLoop);
     }
 
-    // IMAGE UPLOAD
-    async function handleImageUpload(event) {
-        stopWebcam();
+    /* File Upload */
+    async function handleFile(event) {
+        stopWebcam(); // Stop webcam if running
         await loadModel();
 
-        const imgFile = event.target.files[0];
-        const imgElement = document.getElementById("uploaded-image");
+        const file = event.target.files[0];
+        const img = document.getElementById("preview");
 
-        imgElement.src = URL.createObjectURL(imgFile);
-        imgElement.style.display = "block";
+        img.src = URL.createObjectURL(file);
+        img.style.display = "block";
 
-        imgElement.onload = async () => {
-            await predict(imgElement);
+        img.onload = async () => {
+            await predict(img);
         };
     }
 
-    // PREDICTION FUNCTION
+    /* Prediction Function */
     async function predict(input) {
         const prediction = await model.predict(input);
-
         for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction = 
+            labelContainer.childNodes[i].innerHTML =
                 `${prediction[i].className}: ${prediction[i].probability.toFixed(2)}`;
-            labelContainer.childNodes[i].innerHTML = classPrediction;
         }
     }
 </script>
