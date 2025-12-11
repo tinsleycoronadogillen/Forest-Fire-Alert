@@ -5,73 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Early Fire & Smoke Detection – Teachable Machine</title>
 
-    <!-- Fonts + styling -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: "Inter", sans-serif;
+            font-family: "Poppins", sans-serif;
             margin: 0;
-            background: #f4f4f7;
+            background: linear-gradient(135deg, #f7f7f8 0%, #ececec 100%);
             color: #222;
         }
+
         header {
-            background: #c62828;
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
             color: white;
-            padding: 30px;
+            padding: 40px;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
         main {
-            max-width: 900px;
+            max-width: 1000px;
             margin: auto;
             padding: 20px;
         }
-        h2 {
-            color: #c62828;
-            margin-top: 40px;
+
+        .card {
+            background: white;
+            padding: 30px;
+            margin-top: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+            transition: 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-3px);
         }
 
-        .section {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        h2 {
+            color: #b71c1c;
+            margin-top: 0;
         }
 
         button {
-            background: #c62828;
+            background: #d32f2f;
             color: white;
             border: none;
-            padding: 10px 18px;
-            border-radius: 5px;
+            padding: 12px 22px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
+            transition: 0.25s;
             margin-right: 10px;
         }
         button:hover {
-            background: #a91f1f;
+            background: #b71c1c;
+            transform: scale(1.05);
         }
 
-        #webcam-container, #label-container {
-            margin-top: 15px;
+        #webcam-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #label-container {
+            margin-top: 20px;
+            font-size: 1.1rem;
         }
 
         .upload-area {
-            margin-top: 20px;
-            padding: 20px;
-            border: 2px dashed #bbb;
-            border-radius: 8px;
-            text-align: center;
+            margin-top: 25px;
+            padding: 25px;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
             background: #fafafa;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .upload-area:hover {
+            border-color: #d32f2f;
+            background: #fff3f3;
         }
 
         img#uploaded-image {
-            max-width: 300px;
-            margin-top: 15px;
+            max-width: 350px;
+            margin-top: 20px;
+            border-radius: 10px;
             display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        #loadingMessage {
+            display: none;
+            color: #b71c1c;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -79,80 +113,73 @@
 <body>
 <header>
     <h1>Early Fire & Smoke Detection System</h1>
-    <p>AI-powered detection using Google Teachable Machine</p>
+    <p>AI-powered fire hazard detection using Google Teachable Machine</p>
 </header>
 
 <main>
-    <!-- ---------- PROJECT OVERVIEW ---------- -->
-    <section class="section">
+
+    <!-- ABOUT PROJECT -->
+    <div class="card">
         <h2>About This Project</h2>
         <p><strong>Project Title:</strong> Early Fire/Smoke Detection</p>
         <p>
-            This project addresses the need for early fire detection in places where traditional smoke
-            detectors cannot easily be installed—such as forests, nature reserves, remote parks,
-            and other large outdoor environments. By using camera feeds (webcams or trail cameras),
-            this system can identify <strong>three classes: No Fire, Smoke, and Fire</strong>.
-        </p>
-        <p>
-            The goal is to help organizations that manage forests, national parks, or other wildfire-prone
-            environments detect danger sooner and potentially reduce the severity of wildfires.
-        </p>
-        <p>
-            When smoke or flames are detected, this system can be connected to alert tools (SMS, email,
-            monitoring dashboards) to warn staff about possible fire hazards.
-        </p>
-    </section>
-
-    <!-- ---------- HOW THE TEACHABLE MACHINE WORKS ---------- -->
-    <section class="section">
-        <h2>How the Teachable Machine Model Works</h2>
-        <p>
-            Google’s <strong>Teachable Machine</strong> allows anyone to train an image classification model
-            without writing code. You simply upload example images for each class (No Fire, Smoke, Fire), 
-            and the tool learns the visual patterns that distinguish them.
-        </p>
-        <p>
-            After training, Teachable Machine exports a model that runs directly in your browser using
-            TensorFlow.js. This means:
+            This AI-powered system helps detect early signs of fire in environments where traditional smoke detectors 
+            cannot easily be installed—such as forests, wildlife areas, and other remote locations. The system recognizes:
         </p>
         <ul>
-            <li>No server processing required</li>
-            <li>Your webcam feed stays private (nothing is uploaded)</li>
-            <li>The detection runs in real time</li>
+            <li><strong>No Fire</strong></li>
+            <li><strong>Smoke</strong></li>
+            <li><strong>Fire</strong></li>
         </ul>
-    </section>
+        <p>
+            Organizations such as forestry services, national parks, and environmental monitoring agencies can use it 
+            to reduce wildfire risks through early intervention.
+        </p>
+    </div>
 
-    <!-- ---------- INSTRUCTIONS ---------- -->
-    <section class="section">
+    <!-- HOW IT WORKS -->
+    <div class="card">
+        <h2>How the AI Model Works</h2>
+        <p>
+            This website uses Google’s <strong>Teachable Machine</strong>, which allows users to create an AI model without coding.
+            After uploading images of Fire, Smoke, and No Fire, the system learns the visual differences using machine learning.
+            The trained model runs directly in your browser using TensorFlow.js—no data is uploaded.
+        </p>
+    </div>
+
+    <!-- INSTRUCTIONS -->
+    <div class="card">
         <h2>Instructions</h2>
         <ol>
-            <li>Click <strong>Start Webcam</strong> to allow the AI to analyze your live camera feed.</li>
-            <li>Or upload a photo using the <strong>Upload Image</strong> option.</li>
-            <li>The AI will display the probabilities for: No Fire, Smoke, Fire.</li>
-            <li>If “Fire” or “Smoke” probabilities are high, the system would normally trigger an alert.</li>
+            <li>Click <strong>Start Webcam</strong> to analyze live video.</li>
+            <li>Or upload an image using the <strong>Upload Image</strong> box.</li>
+            <li>The prediction results appear below the image or webcam.</li>
+            <li>High probabilities of “Smoke” or “Fire” would trigger alerts in a full deployment.</li>
         </ol>
-    </section>
+    </div>
 
-    <!-- ---------- TEACHABLE MACHINE INTERFACE ---------- -->
-    <section class="section">
-        <h2>Try the Fire/Smoke Detection Model</h2>
+    <!-- MODEL INTERFACE -->
+    <div class="card">
+        <h2>Fire/Smoke Detection Model</h2>
 
-        <button type="button" onclick="init()">Start Webcam</button>
+        <button onclick="init()">Start Webcam</button>
         <button onclick="stopWebcam()">Stop Webcam</button>
 
         <div id="webcam-container"></div>
         <div id="label-container"></div>
+
+        <p id="loadingMessage">Loading model, please wait...</p>
 
         <div class="upload-area">
             <p><strong>Or upload an image:</strong></p>
             <input type="file" accept="image/*" onchange="handleImageUpload(event)">
             <img id="uploaded-image" />
         </div>
-    </section>
+    </div>
+
 </main>
 
-<!-- ---------- SCRIPTS ---------- -->
-
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 
@@ -161,9 +188,10 @@
     let model, webcam, labelContainer, maxPredictions;
     let webcamRunning = false;
 
-    // Initialize Webcam + Model
-    async function init() {
-        if (webcamRunning) return;
+    async function loadModel() {
+        if (model) return model; // If already loaded, reuse it
+
+        document.getElementById("loadingMessage").style.display = "block";
 
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
@@ -171,13 +199,17 @@
         model = await tmImage.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
 
-        const flip = true;
-        webcam = new tmImage.Webcam(300, 300, flip);
+        document.getElementById("loadingMessage").style.display = "none";
+        return model;
+    }
+
+    async function init() {
+        await loadModel();
+
+        webcam = new tmImage.Webcam(300, 300, true);
         await webcam.setup();
         await webcam.play();
         webcamRunning = true;
-
-        window.requestAnimationFrame(loop);
 
         document.getElementById("webcam-container").innerHTML = "";
         document.getElementById("webcam-container").appendChild(webcam.canvas);
@@ -187,6 +219,8 @@
         for (let i = 0; i < maxPredictions; i++) {
             labelContainer.appendChild(document.createElement("div"));
         }
+
+        window.requestAnimationFrame(loop);
     }
 
     function stopWebcam() {
@@ -203,34 +237,29 @@
         window.requestAnimationFrame(loop);
     }
 
-    // ----- IMAGE UPLOAD PREDICTION -----
+    // IMAGE UPLOAD
     async function handleImageUpload(event) {
         stopWebcam();
+        await loadModel();
 
-        const file = event.target.files[0];
-        const img = document.getElementById("uploaded-image");
+        const imgFile = event.target.files[0];
+        const imgElement = document.getElementById("uploaded-image");
 
-        img.src = URL.createObjectURL(file);
-        img.style.display = "block";
+        imgElement.src = URL.createObjectURL(imgFile);
+        imgElement.style.display = "block";
 
-        img.onload = async () => {
-            if (!model) {
-                const modelURL = URL + "model.json";
-                const metadataURL = URL + "metadata.json";
-                model = await tmImage.load(modelURL, metadataURL);
-                maxPredictions = model.getTotalClasses();
-            }
-            await predict(img);
+        imgElement.onload = async () => {
+            await predict(imgElement);
         };
     }
 
-    // ----- PREDICT FUNCTION -----
+    // PREDICTION FUNCTION
     async function predict(input) {
         const prediction = await model.predict(input);
 
         for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            const classPrediction = 
+                `${prediction[i].className}: ${prediction[i].probability.toFixed(2)}`;
             labelContainer.childNodes[i].innerHTML = classPrediction;
         }
     }
