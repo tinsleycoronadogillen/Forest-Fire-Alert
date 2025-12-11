@@ -105,9 +105,9 @@
 <section>
   <h2>📸 Try It Yourself</h2>
   <p>
-    1. Press <strong>Start</strong> to load the model and activate your webcam.  
+    1. Press <strong>Start Webcam</strong> to load the model.  
     <br>
-    2. Or upload an image to test the model manually.
+    2. OR upload an image to test the model manually.
   </p>
 
   <!-- WEB CAM MODE -->
@@ -121,17 +121,19 @@
   <!-- IMAGE UPLOAD MODE -->
   <h3>Or Upload an Image</h3>
   <button onclick="document.getElementById('imageUpload').click()">Upload Image</button>
+
   <input 
       type="file" 
       id="imageUpload" 
       accept="image/*" 
-      style="display:none" 
+      style="display:none"
       onchange="handleImageUpload(event)"
   >
 
   <div id="uploaded-image-container">
-      <img id="uploaded-image" src="" style="display:none;">
+      <img id="uploaded-image" src="">
   </div>
+
   <div id="upload-label-container"></div>
 
 </section>
@@ -186,18 +188,30 @@ async function predict() {
 }
 
 // ==========================================================
-//   IMAGE UPLOAD FEATURE
+//   IMAGE UPLOAD FEATURE (FIXED)
 // ==========================================================
 
 function handleImageUpload(event) {
     const file = event.target.files[0];
-    if (!file) return;
+    if (!file) {
+        console.warn("No file selected.");
+        return;
+    }
 
     const img = document.getElementById("uploaded-image");
-    img.src = URL.createObjectURL(file);
-    img.style.display = "block";
+    const uploadLabelContainer = document.getElementById("upload-label-container");
 
-    img.onload = () => predictImage(img);
+    // Clear previous results
+    uploadLabelContainer.innerHTML = "";
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        img.src = e.target.result; 
+        img.style.display = "block";
+        img.onload = () => predictImage(img);
+    };
+
+    reader.readAsDataURL(file);
 }
 
 async function predictImage(imageElement) {
@@ -207,15 +221,15 @@ async function predictImage(imageElement) {
     }
 
     const prediction = await model.predict(imageElement);
-
     const uploadLabelContainer = document.getElementById("upload-label-container");
+
     uploadLabelContainer.innerHTML = "";
 
-    for (let i = 0; i < prediction.length; i++) {
-        const label = document.createElement("div");
-        label.innerHTML = `${prediction[i].className}: ${prediction[i].probability.toFixed(2)}`;
-        uploadLabelContainer.appendChild(label);
-    }
+    prediction.forEach(p => {
+        const line = document.createElement("div");
+        line.innerHTML = `${p.className}: ${p.probability.toFixed(2)}`;
+        uploadLabelContainer.appendChild(line);
+    });
 }
 </script>
 
